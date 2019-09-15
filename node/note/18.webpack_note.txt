@@ -1,0 +1,29 @@
+1、打包css
+2、3中用法：loader、use、use+loader
+3、打包公共模块：1）每个模块引入 2）通过webpack.ProvidePlugin注入变量  3）通过expose-loader注入全局变量
+4、入口：1）字符串时，默认为main chunk 2）数组时，多入口，最终会打包成一个资源 3）对象时，多入口，最终打包成多个资源
+5、图片的处理:1）通过js脚本引入 2）通过css文件背景引入 3）在html页面引入
+6、打包后的图片单独放到一个文件夹下，图片base64转码
+7、抽离css到单独文件
+8、css自动添加前缀 安装两个包npm i postcss-loader autoprefixer -D
+一个配置文件：postcss.config.js
+module.exports={
+    plugins:[require('autoprefixer')]
+}
+9、编译js
+10、source-map  cheap-module-source-map  eval-source-map  cheap-module-eval-source-map
+11、css压缩 ?minimize
+12、压缩js
+13、resolve优化
+14、dll
+15、libraryTarget
+16、happypack
+17、区分环境变量 3种方法
+18、publicPath
+
+
+
+
+
+
+

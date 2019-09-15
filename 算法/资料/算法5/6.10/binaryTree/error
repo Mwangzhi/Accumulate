@@ -1,0 +1,9 @@
+
+
+  测试二叉树
+[ BinaryTreeNode { p: null, left: null, right: null, key: 2, value: null } ]
+    ✓ insert
+
+
+  1 passing (7ms)
+

@@ -1,0 +1,6 @@
+{
+    "name": "aaaa",
+    "bin": {
+        "a": "./1.yargs.js"
+    }
+}

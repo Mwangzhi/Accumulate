@@ -1,0 +1,34 @@
+#!/usr/bin/env node
+
+let yargs = require('yargs');
+let argv = yargs
+    .option('o', {
+        alias: 'host',
+        demand: false,
+        default: '127.0.0.1',
+        describe: '监听的主机名',
+        type: 'string',
+    })
+    .option('p', {
+        alias: 'port',
+        demand: false,
+        default: 8080,
+        describe: '监听的端口号',
+        type: 'number'
+    })
+    .option('d', {
+        alias: 'root',
+        demand: false,
+        default: process.cwd(),
+        describe: '静态服务根目录',
+        type: 'string'
+    })
+    .usage('Usage:wz-server [options]')
+    .example('wz-server -h localhost -p 9090', 'start listening at localhost 9090')
+    .help('h')
+    .alias('h', 'help')
+    .epilog('copyright 2018')
+    .argv;
+let Server = require('../src/app.js');
+let server = new Server(argv);
+server.start();

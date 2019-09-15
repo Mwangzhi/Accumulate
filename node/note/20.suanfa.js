@@ -1,0 +1,17 @@
+/**
+Number.MAX_SAFE_INTEGER    9007199254740991
+Number.MIN_SAFE_INTEGER    -9007199254740991
+Number.POSITION_INFINITY   Infinity
+Number.NEGATIVE_INFINITY   -Infinity
+ */
+
+
+
+
+
+
+
+
+
+
+
