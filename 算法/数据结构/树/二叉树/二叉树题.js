@@ -142,3 +142,43 @@ function isMirror(t1, t2) {
     if (t1 == null || t2 == null) return false;
     return t1.value == t2.value && isMirror(t1.right, t2.left) && isMirror(t1.left, t2.right)
 }
+
+
+//==================================第5道题 从往右看二叉树，找到二叉树左侧的节点============================================
+/* 
+
+             1
+            / \
+          5     9
+===>    /  \   /  \
+       4    2  7   3
+                    \
+                     8
+[1,5,4,8]
+
+*/
+function leftoutlineTree(node, d = 0, outline = []) {
+    if (!node) return;
+    if (!outline[d]) {
+        outline[d] = node.value;
+    }
+    leftoutlineTree(node.left, d + 1, outline)
+    leftoutlineTree(node.right, d + 1, outline)
+    return outline;
+}
+//求每行最大值
+function maxOfLine(node, d = 0, outline = []) {
+    if (!node) return;
+    outline[d] = Math.max(outline[d] || -1, node.value);
+    maxOfLine(node.left, d + 1, outline);
+    maxOfLine(node.right, d + 1, outline);
+    return outline;
+}
+
+
+
+
+
+
+
+

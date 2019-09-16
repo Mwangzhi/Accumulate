@@ -337,10 +337,12 @@ parseInt(num,2);
 一些题：
 https://leetcode.com/problems/missing-number/  数组中丢失的数字
 ### 数字操作
-
+1、求一个数字是否是完全平方。(perfect square).二分查找 https://leetcode.com/problems/valid-perfect-square/submissions/
 ### 二叉树操作
 
 ### 链表操作
-
+1、在头部前面再插入一个节点
 ### 队列、栈操作
 
+### 字符串
+1、利用assic码表，将字符转换为数字。
