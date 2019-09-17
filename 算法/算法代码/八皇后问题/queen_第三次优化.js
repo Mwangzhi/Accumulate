@@ -40,4 +40,4 @@ function queen(n, decisions = []) {
     }
     return r
 }
-console.log(queen(5))
+console.log(queen(4))
