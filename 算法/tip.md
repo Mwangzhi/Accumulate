@@ -324,6 +324,29 @@ let num='111';//这是二进制树，调用parseInt时不需要在前缀'0b'
 parseInt(num,2);
 ```
 
+### 代码还可以这样写
+#### 1、asdf
+```javascript
+let obj = { a: 1, b: 2 };
+for (let key in obj) {
+    if (!obj[key]) {
+        obj[key] = 0;
+    } else {
+        obj[key] += 1;
+    }
+}
+//-------------等价于------------------
+
+let obj = { a: 1, b: 2 };
+for (let key in obj) {
+    obj[key] = (obj[key] || 0) + 1;
+}
+```
+### 过滤数组
+```javascript
+const f = (A, B) => A.concat(' ', B).split(' ').filter((e, i, arr) => arr.indexOf(e) === arr.lastIndexOf(e))
+console.log(f("this apple is sweet", "this apple is sour"));
+```
 
 
 
