@@ -10,7 +10,12 @@
 7、按层级遍历一棵树
 8、遍历所有的叶子节点
 9、两两节点比较，求出最小值
-10、...
+10、合并两颗二叉树
+11、判断二叉树A是否是二叉树B的子树
+12、检测二叉树是否是轴对称
+    https://leetcode.com/articles/symmetric-tree/
+13、...
+14、...
 */
 
 class Node {
@@ -273,3 +278,95 @@ var levelOrder = function (root) {
 };
 
 console.log(levelOrder(node3))
+
+//-----------------------------合并两颗二叉树-----------------------------
+
+//https://leetcode.com/articles/merge-two-binary-trees/
+var mergeTrees = function (t1, t2) {
+    if (t1 === null) return t2;
+    if (t2 === null) return t1;
+    t1.val += t2.val;
+    t1.left = mergeTrees(t1.left, t2.left);
+    t1.right = mergeTrees(t1.right, t2.right);
+    return t1
+};
+
+var mergeTrees = function (t1, t2) {
+    if (t1 == null) return t2;
+    let stack = [];
+    stack.push([t1, t2]);
+    while (stack.length !== 0) {
+        let t = stack.pop();
+        if (t[0] == null || t[1] == null) {
+            continue;
+        }
+        t[0].val += t[1].val;
+        if (t[0].left == null) {
+            t[0].left = t[1].left;
+        } else {
+            stack.push([t[0].left, t[1].left]);
+        }
+        if (t[0].right == null) {
+            t[0].right = t[1].right;
+        } else {
+            stack.push([t[0].right, t[1].right]);
+        }
+    }
+    return t1;
+};
+
+//-----------------------------一颗二叉树是否是对称-----------------------------
+var isSymmetric = function (root) {
+    function isMirror(t1, t2) {
+        if (t1 === null && t2 === null) return true;
+        if (t1 === null || t2 === null) return false;
+        return (t1.val === t2.val)
+            && isMirror(t1.left, t2.right)
+            && isMirror(t1.right, t2.left)
+    }
+    return isMirror(root, root);
+};
+var isSymmetric = function (root) {
+    let q = [];
+    q.push(root);
+    q.push(root);
+    while (q.length !== 0) {
+        let t1 = q.shift();
+        let t2 = q.shift();
+        if (t1 == null && t2 === null) continue;
+        if (t1 === null || t2 === null) return false;
+        if (t1.val != t2.val) return false;
+        q.push(t1.left);
+        q.push(t2.right);
+        q.push(t1.right);
+        q.push(t2.left);
+    }
+    return true;
+}
+
+//-----------------------------判断二叉树A是否是二叉树B的子树-----------------------------
+
+/**
+ * @param {TreeNode} s
+ * @param {TreeNode} t
+ * @return {boolean}
+ */
+function isSame(s, t) {
+    if (s == null && t == null)
+        return true;
+    if (s == null || t == null)
+        return false;
+    if (s.val != t.val)
+        return false;
+    return isSame(s.right, t.right) && isSame(s.left, t.left);
+}
+var isSubtree = function (s, t) {
+    if (s == null)
+        return false;
+    if (isSame(s, t))
+        return true;
+    return isSubtree(s.left, t) || isSubtree(s.right, t);
+}
+
+
+
