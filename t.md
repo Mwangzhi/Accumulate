@@ -779,7 +779,67 @@ DNS查找过程：
 若操作系统的缓存也没有找到或失效，浏览器就会去读取本地的hosts文件（Hosts文件也可以建立域名到IP地址的绑定关系，可以通过编辑Hosts文件来达到名称解析的目的。 例如，我们需要屏蔽某个域名时，就可以将其地址指向一个不存在IP地址，以达到屏蔽的效果）。
 浏览器发起一个DNS的系统调用：
 hosts中没有找到对应的配置项的话，浏览器发起一个DNS的调用（向本地主控DNS服务，一般来说是你的运营商提供的）。
+**DNS基础知识：**
+1、命令去查找域名对应的IP
+```javascript
+dig www.baidu.com
+```
+```javascript
+dig +short www.baidu.com
+```
+2、本机一定要知道DNS服务器的IP地址。否则上不了网。通过DNS服务器，才能知道某个域名的IP地址到底是什么。
+3、DNS服务器的IP地址，有可能是动态的，每次上网时由网关分配，这叫做DHCP机制；也有可能是事先指定的固定地址
+4、有一些公网的DNS服务器，也可以使用，其中最有名的就是Google的8.8.8.8和Level 3的4.2.2.2。本机只向自己的DNS服务器查询，dig命令有一个@参数，显示向其他DNS服务器查询的结果。
+```javascript
+dig @4.2.2.2 math.stackexchange.com  //指定向DNS服务器4.2.2.2查询。
+```
+5、DNS服务器怎么会知道每个域名的IP地址呢？答案是分级查询。
+**分级查询**
+所谓"分级查询"，就是从根域名开始，依次查询每一级域名的NS记录，直到查到最终的IP地址，过程大致如下：
+  - 1、从"根域名服务器"查到"顶级域名服务器"的NS记录和A记录（IP地址）
+  - 2、从"顶级域名服务器"查到"次级域名服务器"的NS记录和A记录（IP地址）
+  - 3、从"次级域名服务器"查出"主机名"的IP地址
+6、主机名.次级域名.顶级域名.根域名（host.sld.tld.root）
+  "顶级域名"（top-level domain，缩写为TLD）
+  "次级域名"（second-level domain，缩写为SLD）
+  主机名又称为"三级域名"
+7、NS记录（Name Server的缩写），即哪些服务器负责管理stackexchange.com的DNS记录。
+8、目前，世界上一共有十三组根域名服务器，从A.ROOT-SERVERS.NET一直到M.ROOT-SERVERS.NET。
+9、dig命令的+trace参数可以显示DNS的整个分级查询过程。
+```javascript
+dig +trace math.stackexchange.com
+```
+10、dig命令可以单独查看每一级域名的NS记录。
+```javascript
+$ dig ns com
+$ dig ns stackexchange.com
+```
+`+short`参数可以显示简化的结果。
+```javascript
+$ dig +short ns com
+$ dig +short ns stackexchange.com
+```
+11、域名与IP之间的对应关系，称为"记录"（record）。根据使用场景，"记录"可以分成不同的类型（type），前面已经看到了有`A`记录和`NS`记录。
+常见的DNS记录类型如下。
+（1） A：地址记录（Address），返回域名指向的IP地址。
 
+（2） NS：域名服务器记录（Name Server），返回保存下一级域名信息的服务器地址。该记录只能设置为域名，不能设置为IP地址。
+
+（3）MX：邮件记录（Mail eXchange），返回接收电子邮件的服务器地址。
+
+（4）CNAME：规范名称记录（Canonical Name），返回另一个域名，即当前查询的域名是另一个域名的跳转，详见下文。
+
+（5）PTR：逆向查询记录（Pointer Record），只用于从IP地址查询域名，详见下文。
+12、PTR记录用于从IP地址反查域名。dig命令的-x参数用于查询PTR记录。
+```javascript
+$ dig -x 192.30.252.153
+...
+
+;; ANSWER SECTION:
+153.252.30.192.in-addr.arpa. 3600 IN    PTR pages.github.com.
+```
+上面结果显示，192.30.252.153这台服务器的域名是pages.github.com。
+逆向查询的一个应用，是可以防止垃圾邮件，即验证发送邮件的IP地址，是否真的有它所声称的域名。
 
 ### 46、TCP三次握手，四次挥手
 6个控制位（URG\ACK\FIN\PSH\SYN\RST）TCP的连接、传输、断开都受这6个控制位的指挥
@@ -797,77 +857,64 @@ hosts中没有找到对应的配置项的话，浏览器发起一个DNS的调用
 
 ### 47、js隐式类型转换：
 1、转为字符串规则
-1)null------>"null"
-2)undefined------>"undefined"
-3)true------>"true"
-4)false------>"false"
-5)数字类型------>转为数字的字符串形式，比如：1------>"1"  1e21------>"1e+21"
-6)数组------>将数组中的数据按照逗号连接起来，空数组转为空字符串，数组中的null、undefined会被当做空字符串处理
-7)对象------>转为字符串相当于直接使用Object.prototype.toString(),返回"[object Object]"
+  1)null------>"null"
+  2)undefined------>"undefined"
+  3)true------>"true"
+  4)false------>"false"
+  5)数字类型------>转为数字的字符串形式，比如：1------>"1"  1e21------>"1e+21"
+  6)数组------>将数组中的数据按照逗号连接起来，空数组转为空字符串，数组中的null、undefined会被当做空字符串处理
+  7)对象------>转为字符串相当于直接使用Object.prototype.toString(),返回"[object Object]"
 2、转为数字规则：
-1)null------>0
-2)undefined------>NaN
-3)字符串------>如果是数字类型的字符串那就转为对应的数字；空字符串转为0；其他转为NaN
-4)true------>1
-5)false------>0
-6)数组------>先转为原始类型，也就是toPrimitive，然后按照以上规则处理
-7)对象------>同数组
+  1)null------>0
+  2)undefined------>NaN
+  3)字符串------>如果是数字类型的字符串那就转为对应的数字；空字符串转为0；其他转为NaN
+  4)true------>1
+  5)false------>0
+  6)数组------>先转为原始类型，也就是toPrimitive，然后按照以上规则处理
+  7)对象------>同数组
 3、转为布尔值
-1)null------>false
-2)undefined------>false
-3)""------>false
-4)NaN------>false
-5)0------>false
-其他均为true
+  1)null------>false
+  2)undefined------>false
+  3)""------>false
+  4)NaN------>false
+  5)0------>false
+  6)其他均为true
 4、转为原始类型(toPrimitive)
-toPrimitive指的是对象类型转为原始类型的操作
-当对象类型转为原始类型时，它会查找对象的valueOf方法，如果valueOf方法返回原始类型的值，那toPrimitive的结果就是这个值；
-如果valueOf不存在或者返回的值不是原始类型的值，就会尝试调用对象的toString方法，然后使用toString的结果作为toPrimitive的结果。
-1)Number([])------>0
-2)Number([10])------>10
+  toPrimitive指的是对象类型转为原始类型的操作
+  当对象类型转为原始类型时，它会查找对象的valueOf方法，如果valueOf方法返回原始类型的值，那toPrimitive的结果就是这个值；
+  如果valueOf不存在或者返回的值不是原始类型的值，就会尝试调用对象的toString方法，然后使用toString的结果作为toPrimitive的结果。
+  1)Number([])------>0
+  2)Number([10])------>10
 5、布尔和其他类型的相等比较
-只要布尔参与比较，该布尔值会被转化为数字类型
+  只要布尔参与比较，该布尔值会被转化为数字类型
 6、数字类型和字符串类型的相等比较
-当数字类型和字符串类型相比较时，字符串会转为数字类型
-纯数字形式的字符串会转为对应的数字，空字符串转为0，其他为NaN
+  当数字类型和字符串类型相比较时，字符串会转为数字类型
+  纯数字形式的字符串会转为对应的数字，空字符串转为0，其他为NaN
 7、对象类型和原始类型的相等比较
-当对象类型和原始类型发生比较时，对象类型会按照toPrimitive规则转化为原始类型。
-'[object Object]'=={}
-'1,2,3'=[1,2,3]
-[null]==0
-[undefined]==0
-[]==0
-null==undefined
-null只和null相等，和undefined宽松相等，除这两个值外，和其他任何值都不相等
-undefined只和undefined相等，和null宽松相等，除这两个值外，和其他任何值都不相等
-null==undefined //true
-null==false  //false
-undefined==false  //false
+  当对象类型和原始类型发生比较时，对象类型会按照toPrimitive规则转化为原始类型。
+  '[object Object]'=={}
+  '1,2,3'=[1,2,3]
+  [null]==0
+  [undefined]==0
+  []==0
+  null==undefined
+  null只和null相等，和undefined宽松相等，除这两个值外，和其他任何值都不相等
+  undefined只和undefined相等，和null宽松相等，除这两个值外，和其他任何值都不相等
+  null==undefined //true
+  null==false  //false
+  undefined==false  //false
 8、几道题
-[]==![] //true
-[]==0  //true
-['0']==false  //true
-[]==false  //true
-[null]==0  //true
+  []==![] //true
+  []==0  //true
+  ['0']==false  //true
+  []==false  //true
+  [null]==0  //true
 9、发生转换的几种情况
-1)if
-2)数学运算
-3)三元运算符
-4)取反操作
-5)比较运算
-
-6个控制位（URG\ACK\FIN\PSH\SYN\RST）TCP的连接、传输、断开都受这6个控制位的指挥
-窗口值 是用来在TCP传输中进行流量控制的。16位窗口大小
-三次握手的目的是同步连接双方的序列号和确认号，并交换TCP窗口大小信息
-三次握手：
-1、建立连接，客户端发送连接请求，发送SYN报文，将seq设置为0.然后，客户端进入SYN_SEND状态，等待服务器的确认。
-2、服务器收到客户端的SYN报文段。需要对这个SYN报文段进行确认，发送ACK报文，将ack设置为1，同时发送syn，将seq设置为0。服务器进入SYN_RECV状态。
-3、客户端收到服务器的ACK和SYN报文段，发送ACK报文段，此时，双方进入ESTABLISHED状态，完成TCP三次握手
-四次挥手：
-1、客户端发送FIN报文，进入FIN_WAIT1状态，表示客户端没有数据传输了，请求断开连接。
-2、服务器收到客户端的FIN报文段后，向客户端发送ACK报文段，服务器进入CLOSE_WAIT状态，客户端收到ACK后进入FIN_WAIT2状态。
-3、如果没有数据需要传输了，服务器发送FIN报文，进入LAST_ACK状态。
-4、客户端收到服务器的FIN报文段，向服务器发送ACK报文段，进入TIME_WAIT状态，服务器收到ACK后，关闭连接。客户端等待一定时间后没有收到回复，关闭连接。
+  1)if
+  2)数学运算
+  3)三元运算符
+  4)取反操作
+  5)比较运算
 
 linux
 1.ls – List  
@@ -877,7 +924,7 @@ mkdir 用于新建一个新目录
 3.pwd – Print Working Directory     
 pwd显示当前工作目录
 4.cd – Change Directory
-对于当前在终端运行的会中中，cd 将给定的文件夹（或目录）设置成当前工作目录。
+对于当前在终端运行，cd 将给定的文件夹（或目录）设置成当前工作目录。
 5.rmdir – Remove Directory
 rmdir 删除给定的目录。
 6.rm – Remove
@@ -953,7 +1000,7 @@ escapeHTML()
 | 案例      |    非严格模式 | 严格模式  |
 | :-------- | --------:| :--: |
 | 查找一个未定义的变量时，如：b=1  | 会在全局创建该变量 |  报错   |
-|eval|会修改此法作用域|无法修改所在的作用域，有自己的词法作用域|
+|eval|会修改词法作用域|无法修改所在的作用域，有自己的词法作用域|
 |全局下，单独调用一个函数，函数的this问题|指向window|undefined|
 |对象的属性不可写时，如果赋值|赋值失败，不报错|报错，TypeError|
 |Object.preventExtensions()|失败，不报错|报错|
@@ -1223,7 +1270,7 @@ https如何解决以上问题：
 - 服务器的运营人员向CA提交公钥、组织信息、个人信息等并申请认证。
 - CA通过线上线下等多种手段验证信息。
 - 信息审核通过，CA下发认证文件--证书。证书包含如下信息：1、公钥2、组织信息3、个人信息、4、CA信息5、签名。1234是明文的，5是对他们的签名，采用私钥进行签名。
-- 客户端请求服务的，服务的返回证书文件。
+- 客户端请求服务的，服务器返回证书文件。
 - 客户端通过签名验证证书信息是否合法。
 - 客户端通过内置信任证书验证服务器返回的证书是否在有效期等信息。
 
@@ -1728,33 +1775,248 @@ var timeoutID = scope.setTimeout(function[, delay, param1, param2, ...]);
 var timeoutID = scope.setTimeout(function[, delay]); 
 var timeoutID = scope.setTimeout(code[, delay]);
 ```
-### dsd
-### dsd
-### dsd
-### dsd
-### dsd
-### dsd
+###  Symbol.toStringTag
+Symbol.toStringTag 是一个内置 symbol，它通常作为对象的属性键使用，对应的属性值应该为字符串类型，这个字符串用来表示该对象的自定义类型标签，通常只有内置的 Object.prototype.toString() 方法会去读取这个标签并把它包含在自己的返回值里。
+```javascript
+let myExports = {};
+Object.defineProperty(myExports, Symbol.toStringTag, { value: 'Module' });
+console.log(Object.prototype.toString.call(myExports));//[object Module]
 
 
+let myExports = {
+    [Symbol.toStringTag]: 'Module'
+};
+console.log(Object.prototype.toString.call(myExports));//[object Module]
+```
+### Object.create实现
+```javascript
+var ns = Object.create(null);
+if (typeof Object.create !== "function") {
+    Object.create = function (proto) {
+        function F() {}
+        F.prototype = proto;
+        return new F();
+    };
+}
+console.log(ns)
+console.log(Object.getPrototypeOf(ns));
+```
+### 对象属性描述符
+1、数据描述符：configurable、enumerable、writable、value
+2、存取描述符：configurable、enumerable、writable、get、set
+3、数据描述符和存取描述符不能混合使用
+### Linux
+Linux严格区分大小写
+压缩包  .gz   .bz2   .tar.bz2   .tgz 
+二进制文件  .rpm 
+网页文件  .html .php 
+脚本文件  .sh 
+配置文件  .conf 
 
 
+[root@wangzhi ~]#
+root 当前登录用户
+localhost 主机名
+~ 当前工作目录,默认是当前用户的家目录，root就是/root,普通用户是 /home/用户名
+提示符 超级用户是 #,普通用户是$
+
+命令 [选项] [参数]
 
 
-### project
-1、express原理，应用到项目中
-2、依赖反转
+ls 
+-a 显示所有文件，包括隐藏文件
+-l 显示详细信息
+-d 查看目录本身的属性而非子文件 ls /etc/
+-h 人性化的方式显示文件大小
+-i 显示inode,也就是i节点，每个节点都有ID号
+
+u(所有者)、g(所属组)、o(其他人)
+
+drwxr-xr-x .  1 root  root   800 Sep 16 00:19 logs
+d代表文件夹 
+.代表ACL权限
+
+find [搜索范围] [搜索条件]
+通配符
+    *  匹配任意内容
+    ?  匹配任意一个字符
+    []  匹配任意一个中括号内的字符
+-i
+-user
+-mtime
+-size 100k
+-inum
 
 
+压缩文件: zip 压缩文件名 源文件
+压缩目录: zip -r 压缩文件名 源目录
+解压: unzip 压缩文件名
 
-### principle
-express
-koa中间件
-promise
-axios
-stream
-next函数：依次执行一个函数队列
+压缩文件: gzip 源文件     (源文件会消失)
+         gzip -c 源文件 > 压缩文件  (源文件不会消失)
+压缩目录: gzip -r 目录    (压缩目录下的所有子文件，但是不压缩目录)
+解压: gunzip 压缩文件
+
+压缩文件: bzip2 源文件     (不保留源文件)
+         bzip2 -k 源文件    (保留源文件)
+压缩目录: bzip2 不能压缩目录
+解压: bunzip2 压缩文件名
+
+w 查看登录用户信息
+
+who 查看登录用户信息
+    USER 登录的用户名
+    TTY 登录的终端 tty1 本地终端 pts/0远程终端
+
+last
+查看当前登录和过去登录的用户信息 默认读取  /var/log/wtmp  文件
+
+#!/bin/bash             ----->可执行文件执行头(Linux)
+#!/usr/bin/env node     ----->可执行文件执行头(window)
+bash aa.txt             通过Bash调用执行脚本
+
+快捷键：
+ctrl + l  清屏
+ctrl + a   光标移动到命令行首
+ctrl + e  光标移动到命令行尾
+ctrl + u  从光标所在的位置删除到行首
+
+历史命令保存文件 ~/.bash_history
+
+使用 !! 重复执行上一条命令
 
 
+设备    设备文件名      文件描述符      类型
+键盘    /dev/stdin      0           标准输入 
+显示器  /dev/stdout     1           标准输出 
+显示器  /dev/stderr     2           标准错误输出 
+
+管道符号:
+命令1的正确输出会作为命令2的操作对象
+命令1|命令2
+
+用户和用户组:
+/etc/group 存储当前系统中所有用户组信息
+group:x:123:abc,def
+组名称:组密码占位符:组编号:组中用户名列表
+root 组编号为0
+1-499系统预留的编号 预留给安装的软件和服务的
+用户手动创建的用户组从500开始
+组密码占位符都是x
+
+/etc/group 存储当前系统中所有用户组信息
+/etc/gshadow  存放当前系统中用户组的密码信息
+/etc/passwd   存储当前系统中所有用户的信息
+/etc/shadow   存放当前系统中所有用户的密码信息
+
+/ 根目录
+/boot 启动目录，启动相关文件
+/dev 设备文件
+/etc 配置文件
+/home 普通用户的家目录,可以操作
+/lib 系统库保存目录
+/bin 普通命令
+/sbin 命令保存目录，级用户才可以执行的命令
+/usr/bin 系统软件资源目录 面向普通用户的系统命令
+/usr/sbin 系统软件资源目录 面向超级用户的系统命令
+
+
+ls
+mkdir
+cd
+pwd
+rmdir
+rm
+cp
+mv
+whereis 
+echo $PATH
+find / -name aaa.log
+grep "wangzhi" a.txt -iv
+zip 1.zip  1.txt
+w
+who
+last
+history
+history -c
+cat
+head  用来显示开头某个行数的文字区块
+tail
+
+
+### css选择器优先级
+- !important
+- 内联样式（1000）
+- ID选择器（0100）
+- 类选择器/属性选择器/伪类选择器（0010）
+- 元素选择器/关系选择器/伪元素选择器（0001）
+- 通配符选择器（0000）
+### BFC
+**什么是BFC**
+**触发BFC的条件**
+- 根元素或其它包含它的元素
+- 浮动元素 (元素的 float 不是 none)
+- 绝对定位元素 (元素具有 position 为 absolute 或 fixed)
+- 内联块 (元素具有 display: inline-block)
+- 表格单元格 (元素具有 display: table-cell，HTML表格单元格默认属性)
+- 表格标题 (元素具有 display: table-caption, HTML表格标题默认属性)
+- 具有overflow 且值不是 visible 的块元素
+- 弹性盒（flex或inline-flex）
+- display: flow-root
+- column-span: all
+**BFC的约束规则**
+- 内部的盒会在垂直方向一个接一个排列（可以看作BFC中有一个的常规流）
+- 处于同一个BFC中的元素相互影响，可能会发生外边距重叠
+- 每个元素的margin box的左边，与容器块border box的左边相接触(对于从左往右的格式化，否则相反)，即使存在浮动也是如此
+- BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素，反之亦然
+- 计算BFC的高度时，考虑BFC所包含的所有元素，连浮动元素也参与计算
+- 浮动盒区域不叠加到BFC上
+**BFC可以解决的问题**
+- 垂直外边距重叠问题
+- 去除浮动
+- 自适用两列布局（float + overflow）
+
+### vi vim
+1、命令模式
+2、输入模式
+3、末行模式
+vim a.txt
+vim + a.txt
+vim + 2 a.txt
+:w
+:q
+:wq!
+:数字       快速当位到当前文件的第几行
+/xxx        从光标位置开始向后搜索 xxx 字符串
+?xxx        从光标位置开始向前搜索
+h l j k     左右下上
+ctrl+f
+ctrl+b
+插入类：
+i
+a
+A
+o
+O
+s
+删除类：
+x     删除当前字符
+dd    删除光标所在行
+2dd   删除光标2行
+撤销:
+u     撤消最后执行的一次命令
+U     恢复该行的原始状态
+ctrl+R
+剪切类:
+dd    删除光标所在行
+yy    复制光标所在的行
+p    在光标所在行的下方粘贴
+P    在光标所在行的上方粘贴
+
+### Docker
+ Docker 相关的几个核心概念，使用 Linux Namespace 进行网络、进程空间、命名空间等资源的隔离，
+ 使用 Cgroups 技术对资源的占用、使用量进行限制，
+ 使用 AUFS 等存储驱动来实现分层结构、增量更新等能力
 
 
 
