@@ -603,7 +603,32 @@ console.log(minCoins(coins, total, n));
 
 
 
+//=======================================爬楼梯花最少的钱================================================
+// https://leetcode.com/problems/min-cost-climbing-stairs/solution/
+var minCostClimbingStairs = function (cost) {
+    let f1 = 0, f2 = 0;
+    for (let i = cost.length - 1; i >= 0; --i) {
+        let f0 = cost[i] + Math.min(f1, f2);
+        f2 = f1;
+        f1 = f0;
+    }
+    return Math.min(f1, f2);
+};
 
+var minCostClimbingStairs = function (cost) {
+    let len = cost.length;
+    let dp = [];
+    dp[0] = cost[0];
+    dp[1] = cost[1];
+    for (let i = 2; i < len; i++) {
+        dp[i] = Math.min(dp[i - 1] + cost[i], dp[i - 2] + cost[i]);
+    }
+    return Math.min(dp[len - 1], dp[len - 2]);
+}
+
+
+console.log(minCostClimbingStairs([10, 15, 20]))
+console.log(minCostClimbingStairs([1, 100, 1, 1, 1, 100, 1, 1, 100, 1]))
 
 
 
