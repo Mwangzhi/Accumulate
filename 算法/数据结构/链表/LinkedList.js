@@ -176,3 +176,135 @@ function findLoopPort(head) {
     }
     return slow;
 }
+
+
+//================================链表去重复节点===============================================
+// https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/submissions/
+var deleteDuplicates = function (head) {
+    // 新建一个节点，插入链表头部
+    const p = new ListNode(-Infinity);
+    p.next = head;
+    let s = p;//慢指针
+    let f = p.next;//快指针
+    while (f) {
+        if (!f.next || (f.val !== f.next.val)) {
+            if (s.next === f) {
+                s = f;
+            } else {
+                s.next = f.next;
+            }
+        }
+        f = f.next;
+    }
+    return p.next;
+};
+
+//================================两个链表相交点 相交链表问题===============================================
+/* 
+// https://leetcode.com/problems/intersection-of-two-linked-lists/
+LC:160
+路程相等，速度相等，所以会相遇。
+*/
+function getIntersectionNode(headA, headB) {
+    let pA = headA, pB = headB;
+    while (pA != pB) {
+        pA = pA ? pA.next : headB;
+        pB = pB ? pB.next : headA;
+    }
+    return pA;
+}
+
+
+
+//================================分割链表===============================================
+var splitListToParts = function (root, k) {
+    /* 
+    n--->总节点数
+    d--->每段节点数
+    k--->总段数
+    r--->余数
+
+    n = d * k;
+    d = Math.floor(n/k);
+    r = n % k
+
+    LC:725 
+    https://leetcode.com/problems/split-linked-list-in-parts/submissions/
+    */
+    let ret = [];
+    let cur = root;
+    let n = 0;
+    while (cur) {
+        cur = cur.next;
+        n += 1;
+    }
+    d = Math.floor(n / k);
+    r = n % k;
+    cur = root;
+    pre = null;
+    for (let i = 0; i < k; i++) {
+        ret.push(cur);
+        let len = d;
+        if (r > 0) {
+            r--;
+            len += 1;
+        }
+        for (let _ = 0; _ < len - 1; _++) {
+            cur = cur.next;
+        }
+        if (cur) {
+            pre = cur;
+            cur = cur.next;
+        }
+        pre.next = null;
+    }
+    return ret;
+};
+
+
+//================================合并链表===============================================
+/* 
+数据1：12345
+数据2：23456
+数据3：345678
+将每组的数据的第一个拿出来放入queue，图中框就是queue，queue中最小的出，然后再入队一个数据。
+queue可以是数组，也可以是优先队列 priorityQueue
+ ___
+| 1 | 2 3 4 5 
+| 2 | 3 4 5 6 
+| 3 | 4 5 6 7 8
+一一
+LC: https://leetcode.com/problems/merge-k-sorted-lists/solution/
+*/
+var mergeKLists = function (lists) {
+    function poll(arr, prediction) {
+        if (arr.length === 0) return null;
+        let min = prediction(arr[0]);
+        let index = 0;
+        for (let i = 1; i < arr.length; i++) {
+            let tem = prediction(arr[i]);
+            if (tem < min) {
+                min = tem;
+                index = i;
+            }
+        }
+        return arr.splice(index, 1)[0];
+    }
+    let queue = [];
+    for (let i = 0; i < lists.length; i++) {
+        if (lists[i] !== null) {
+            queue.push(lists[i]);
+        }
+    }
+    let r = new ListNode();
+    let p = r;
+    while (queue.length > 0) {
+        let item = poll(queue, x => x.val);
+        p.next = new ListNode(item.val);
+        p = p.next;
+        if (item.next !== null) {
+            queue.push(item.next);
+        }
+    }
+    return r.next;
+}
