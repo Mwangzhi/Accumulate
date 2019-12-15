@@ -308,3 +308,57 @@ var mergeKLists = function (lists) {
     }
     return r.next;
 }
+
+
+
+// 找到链表中间节点
+// https://leetcode.com/problems/middle-of-the-linked-list/submissions/
+var middleNode = function (head) {
+    let slow = fast = head;
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    return slow;
+};
+// 判断是否是回文单链表，O(n),O(1)
+// https://leetcode.com/problems/palindrome-linked-list/submissions/
+var isPalindrome = function (head) {
+
+    //1.快慢指针找到链表的中点
+    //2.翻转链表前半部分
+    //3.回文校验
+    if (head == null || head.next == null) {
+        return true;
+    }
+    //快慢指针找到链表的中点
+    let fast = head.next.next;
+    let slow = head.next;
+    while (fast != null && fast.next != null) {
+        fast = fast.next.next;
+        slow = slow.next;
+    }
+
+    //翻转链表前半部分
+    let pre = null;
+    let next = null;
+    while (head != slow) {
+        next = head.next;
+        head.next = pre;
+        pre = head;
+        head = next;
+    }
+    //如果是奇数个节点，去掉后半部分的第一个节点。
+    if (fast != null) {
+        slow = slow.next;
+    }
+    //回文校验
+    while (pre != null) {
+        if (pre.val != slow.val) {
+            return false;
+        }
+        pre = pre.next;
+        slow = slow.next;
+    }
+    return true;
+};

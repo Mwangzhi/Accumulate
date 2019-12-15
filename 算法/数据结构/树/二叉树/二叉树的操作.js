@@ -1,4 +1,4 @@
-  
+
 /*
 二叉树的基本操作：
 1、先、中、后遍历（递归以及非递归方式）
@@ -165,19 +165,19 @@ let maxDepth = function (root) {
 
 
 //-----------------------------反转二叉树-----------------------------
-function mirror(root){
-        if(root == null){
-            return
-        }
-        if(root.left == null && root.right == null){
-            return
-        }
-        let temp = root.left;
-        root.left = root.right;
-        root.right = temp;
-        mirror(root.left)
-        mirror(root.right)
+function mirror(root) {
+    if (root == null) {
+        return
     }
+    if (root.left == null && root.right == null) {
+        return
+    }
+    let temp = root.left;
+    root.left = root.right;
+    root.right = temp;
+    mirror(root.left)
+    mirror(root.right)
+}
 
 
 //-----------------------------求二叉树的最近父节点-----------------------------
@@ -368,5 +368,45 @@ var isSubtree = function (s, t) {
     return isSubtree(s.left, t) || isSubtree(s.right, t);
 }
 
+//----------------------------------------------------------
+/* 
+
+https://leetcode.com/problems/longest-univalue-path/
+
+              1
+             / \
+            4   5
+           / \   \
+          4   4   5
 
 
+              5
+             / \
+            4   5
+           / \   \
+          1   1   5
+
+
+*/
+
+
+
+var longestUnivaluePath = function (root) {
+    let ans = 0;
+    arrowLength(root);
+    return ans;
+    function arrowLength(node) {
+        if (node === null) return 0;
+        let left = arrowLength(node.left);
+        let right = arrowLength(node.right);
+        let arrowLeft = 0, arrowRight = 0;
+        if (node.left != null && node.left.val == node.val) {
+            arrowLeft += left + 1;
+        }
+        if (node.right != null && node.right.val == node.val) {
+            arrowRight += right + 1;
+        }
+        ans = Math.max(ans, arrowLeft + arrowRight);
+        return Math.max(arrowLeft, arrowRight);
+    }
+};

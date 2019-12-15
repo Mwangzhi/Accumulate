@@ -5,6 +5,12 @@
 
 */
 
+//DP
+// https://leetcode-cn.com/problems/rotated-digits/solution/xuan-zhuan-shu-zi-by-leetcode/
+// https://leetcode-cn.com/problems/longest-palindromic-substring/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-bao-gu/
+
+//最小路径和  leetcode 64
+// https://leetcode-cn.com/problems/minimum-path-sum/solution/zui-xiao-lu-jing-he-dong-tai-gui-hua-gui-fan-liu-c/
 
 
 //===========================================爬楼梯=======================================================
@@ -258,41 +264,41 @@ function sum_subset(S, N, path = []) {
 第3行有4个1，但是只有3和{ 2, 5}合并和为10，其他都不满足条件。
 */
 function sum_subset_dp(S, N) {
-  const dp = Array.from({length : S.length + 1}, () => Array(N+1).fill(0) )
-  for(let i = 0; i < S.length + 1; i++ ){
-    dp[i][0] = 1
-  }
-  for(let i = 1; i < S.length + 1; i++) {
-    for(let j = 1; j < N + 1; j++) {
-      if( j >= S[i-1] )  {
-        dp[i][j] = dp[i-1][j] || dp[i-1][j - S[i-1]]
-      }else {
-        dp[i][j] = dp[i-1][j]
-      }
+    const dp = Array.from({ length: S.length + 1 }, () => Array(N + 1).fill(0))
+    for (let i = 0; i < S.length + 1; i++) {
+        dp[i][0] = 1
     }
-  }
-  return dp
+    for (let i = 1; i < S.length + 1; i++) {
+        for (let j = 1; j < N + 1; j++) {
+            if (j >= S[i - 1]) {
+                dp[i][j] = dp[i - 1][j] || dp[i - 1][j - S[i - 1]]
+            } else {
+                dp[i][j] = dp[i - 1][j]
+            }
+        }
+    }
+    return dp
 }
 
 
 function read_result_recursive(S, N, dp, path = []) {
-  if( N === 0) { return [path] }
-  if(N < 0) { return [] }
+    if (N === 0) { return [path] }
+    if (N < 0) { return [] }
 
-  let r = []
-  for(let i = 1; i < S.length + 1; i++) {
-    if( dp[i][N] && path.indexOf(S[i-1]) === -1 ) {
-      r = r.concat( read_result_recursive(S, N-S[i-1], dp, path.concat(S[i-1])) )
+    let r = []
+    for (let i = 1; i < S.length + 1; i++) {
+        if (dp[i][N] && path.indexOf(S[i - 1]) === -1) {
+            r = r.concat(read_result_recursive(S, N - S[i - 1], dp, path.concat(S[i - 1])))
+        }
     }
-  }
-  return r
+    return r
 
 }
 
-const S = [1,3,8,5,2]
+const S = [1, 3, 8, 5, 2]
 const N = 10
 const dp = sum_subset_dp(S, N)
-console.log( read_result_recursive(S, N, dp) )
+console.log(read_result_recursive(S, N, dp))
 
 
 
