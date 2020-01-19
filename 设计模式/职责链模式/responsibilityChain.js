@@ -66,7 +66,10 @@ order500.passRequest(1)
 
 
 // 异步的职责链(节点有权利决定什么时候把请求交给下一个节点)
-
+//其实就是交出执行下一个节点的权力
+Chain.prototype.next = function () {
+    this.successor && this.successor.passRequest.apply(this.successor, arguments);
+}
 
 
 
