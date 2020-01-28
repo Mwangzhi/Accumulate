@@ -58,11 +58,34 @@ setCommand(button1, refreshMenuBarCommand);
 
 //================================================================================================================
 // 撤销是命令模式里一个非常有用的功能
+//真正干活的(receiver)会被一个类(MoveCommand)包装成命令对象也叫command对象，
+//包装过程中就可以加入其他功能，比如：记录下移动前的位置(this.oldPos)
+function MoveCommand(receiver, pos) {
+    this.receiver = receiver;
+    this.pos = pos;
+    this.oldPos = null;
+}
+MoveCommand.prototype.execute = function () {
+    this.receiver.start('left', this.pos, 100, 'strongEasyOut');
+    this.oldPos = this.receiver.dom.getBoundingClientRect()['this.receiver.propertyName'];
+}
+//撤销功能
+MoveCommand.prototype.undo = function () {
+    this.receiver.start('left', this.oldPos, 100, 'strongEasyOut')
+}
+let animate = {
+    start(direc, pos, num, type) {
+        console.log('开始移动');
+    },
+    dom: 'dom元素'
+}
+//生成一个command命令
+let command1 = new MoveCommand(animate, 50);
+//生成两个command命令
+let command2 = new MoveCommand(animate, 30);
+//此时command1、command2都有执行和撤销方法。
+
 // 命令队列，维护一个队列，里面存放执行过的命令，这样就能实现撤销或者重做的功能。
-
-
-
-
 
 
 
