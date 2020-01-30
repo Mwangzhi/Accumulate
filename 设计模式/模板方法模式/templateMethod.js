@@ -14,6 +14,7 @@ Beverage.prototype.boilWater = function () { console.log('把水煮沸'); }
 Beverage.prototype.brew = function () { };//空方法，因该由子类重写
 Beverage.prototype.pourInCup = function () { };//空方法，因该由子类重写
 Beverage.prototype.addCondiments = function () { };//空方法，因该由子类重写
+//模板方法
 Beverage.prototype.init = function () {
     this.boilWater();
     this.brew();
