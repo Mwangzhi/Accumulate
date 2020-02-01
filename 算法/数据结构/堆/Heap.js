@@ -66,3 +66,20 @@ function maxk(A, k) {
     }
     return r
 }
+let solution = Array(num_people).fill(0)
+let n = 1;
+let i = 0;
+while (candies > 0) {
+    solution[i % num_people] += n;
+    candies -= n;
+    if (candies < 0) {
+        solution[i % num_people]_ = candies;
+    }
+    n++;
+    i++;
+}
+return solution;
+
+
+
+
