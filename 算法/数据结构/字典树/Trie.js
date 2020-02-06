@@ -61,7 +61,7 @@ class Trie {
         }
         return cound(p);
     }
-    startsWith() {
+    startsWith(str) {
         const stack = [...str].reverse();
         return this._search(stack, p => true);
     }

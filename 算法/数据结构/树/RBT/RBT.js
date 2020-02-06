@@ -15,7 +15,7 @@ https://mp.weixin.qq.com/s/jz1ajDUygZ7sXLQFHyfjWA
 
 5.从任一节点到其每个叶子的所有路径都包含相同数目的黑色节点。
 
-6、红黑树从根到叶子的最长路径不会超过最短路径都倍。
+6、红黑树从根到叶子的最长路径不会超过最短路径2倍。
 
 当插入一个节点时需要调整红黑树(插入节点不一定会破坏红黑树的特性)，方法有两种：
 1、变色
@@ -58,3 +58,7 @@ https://mp.weixin.qq.com/s/jz1ajDUygZ7sXLQFHyfjWA
 什么情况下需要旋转：
 红黑树的应用有很多，其中JDK的集合类TreeMap和TreeSet底层就是红黑树实现的。在Java8中，HashMap也用到了红黑树。
 */
+
+
+
+

@@ -14,7 +14,8 @@ class LinkedList {
         this.head = null;
     }
     //插入
-    insert(node) {
+    insert(val) {
+        let node = new ListNode(val);
         if (this.head !== null) {
             node.next = this.head
         }
@@ -29,7 +30,15 @@ class LinkedList {
         return p
     }
     //删除
-    delete() { }
+    delete(node) {
+        let p = this.head;
+        while (p.next && p.next !== node) {
+            p = p.next;
+        }
+        let tmp = p.next.next;
+        p.next = p.next.next;
+        tmp.next = null;
+     }
 }
 
 
