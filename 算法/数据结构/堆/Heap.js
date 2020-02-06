@@ -45,7 +45,54 @@ class Heap {
         return item
     }
 }
-
+//优先队列
+class PriorityQueue {
+    constructor(data, prediction) {
+        this.list = [];
+        data.forEach((v, i) => this.list[i] = v);
+        this.prediction = prediction;
+        this.build()
+    }
+    swap(A, i, j) {
+        [A[i], A[j]] = [A[j], A[i]];
+    }
+    build() {
+        let i = ~~(this.list.length / 2) - 1;
+        while (i >= 0) {
+            this.max_heapify(i--);
+        }
+    }
+    max_heapify(i) {
+        let leftIndex = 2 * i + 1;
+        let rightIndex = 2 * i + 2;
+        let maxIndex = i;
+        if (leftIndex < this.list.length && this.prediction(this.list[leftIndex]) > this.prediction(this.list[maxIndex])) {
+            maxIndex = leftIndex;
+        }
+        if (rightIndex < this.list.length && this.prediction(this.list[rightIndex]) > this.prediction(this.list[maxIndex])) {
+            maxIndex = rightIndex;
+        }
+        if (i !== maxIndex) {
+            this.swap(this.list, i, maxIndex);
+            this.max_heapify(maxIndex);
+        }
+    }
+    poll() {
+        if (this.list.length === 0) return null;
+        const item = this.list[0];
+        this.swap(this.list, 0, this.list.length - 1);
+        this.list.length--;
+        this.max_heapify(0);
+        return item;
+    }
+    add(item) {
+        this.list.push(item);
+        this.build();
+    }
+    size() {
+        return this.list.length;
+    }
+}
 
 //利用最大堆实现一个排序算法
 function heap_sort(A) {
@@ -73,7 +120,7 @@ while (candies > 0) {
     solution[i % num_people] += n;
     candies -= n;
     if (candies < 0) {
-        solution[i % num_people]_ = candies;
+        solution[i % num_people] = candies;
     }
     n++;
     i++;
