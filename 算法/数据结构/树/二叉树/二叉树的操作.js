@@ -3,7 +3,7 @@
 二叉树的基本操作：
 1、先、中、后遍历（递归以及非递归方式）
 2、最大、最小深度
-3、最近祖先节点
+3、最近祖先节点 
 4、根-->叶子 路径上的和为某个数字
 5、所有的左叶子节点值的和
 6、反转二叉树（或者叫镜像二叉树）
@@ -157,8 +157,8 @@ function pos(root) {
 
 //-----------------------------求树的最大深度-----------------------------
 let maxDepth = function (root) {
-    if (!root) return 0
-    return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1
+    if (!root) return 0;
+    return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
 };
 //对于该递归函数可以这样理解：一旦没有找到节点就会返回 0，每弹出一次递归函数就会加一，树有三层就会得到3。
 // console.log(maxDepth(node1))
