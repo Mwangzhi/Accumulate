@@ -1,0 +1,539 @@
+<!DOCTYPE html><html><head><title>Java知识点</title><meta charset='utf-8'><link href='https://cdn.maxiang.io/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+</style></head><body><div id='preview-contents' class='note-content'>
+                        
+                    
+
+
+
+<h1 id="java知识点">Java知识点</h1>
+
+
+
+<h3 id="进制转换">进制转换</h3>
+
+
+
+<h4 id="1十进制转任意进制">1、十进制转任意进制</h4>
+
+<blockquote>
+  <p>规则：除基取余，直到商为0，余数反转</p>
+</blockquote>
+
+
+
+<h4 id="任意进制转十进制">任意进制转十进制</h4>
+
+<blockquote>
+  <p>每一个位上的系数*基数^权次幂相加</p>
+</blockquote>
+
+
+
+<h4 id="二进制十进制快速转换">二进制、十进制快速转换</h4>
+
+<blockquote>
+  <p>8421码</p>
+</blockquote>
+
+
+
+<h5 id="任意进制到任意进制的转换">任意进制到任意进制的转换</h5>
+
+<blockquote>
+  <p>用十进制做桥梁</p>
+</blockquote>
+
+
+
+<h3 id="有符号数据表示法">有符号数据表示法</h3>
+
+<blockquote>
+  <p>在计算机内，有符号数有3种表示法：<strong>原码</strong>、<strong>反码</strong>和<strong>补码</strong>。所有数据的运算都是采用补码进行的。 <br>
+  <strong>原码</strong>：是二进制定点表示法，即最高位为符号位，“0”表示正，“1”表示负，其余位表示数值的大小。 <br>
+  <strong>反码</strong>：正数的反码与其原码相同；负数的反码是对其原码逐位取反，但符号位除外。 <br>
+  <strong>补码</strong>：正数的补码与其原码相同；负数的补码是在其反码的末位加1。</p>
+</blockquote>
+
+
+
+<h3 id="java基本数据类型">Java基本数据类型</h3>
+
+<ul><li><p>基本数据类型</p>
+
+<ul>
+<li><p>数值型</p>
+
+<ul>
+<li><p>整数类型（byte  short int long)</p></li>
+<li><p>浮点类型（floatdouble）</p></li>
+<li><p>字符型（char）</p></li></ul></li>
+<li><p>布尔型（boolean）</p></li></ul></li>
+<li><p>引用数据类型</p>
+
+<ul>
+<li><p>类（class）</p></li>
+<li><p>接口（interface）</p></li>
+<li><p>数组（[]）</p></li></ul></li>
+</ul>
+
+
+
+<h3 id="数据类型转换">数据类型转换</h3>
+
+<blockquote>
+  <p>byte short char—-int—long—float—double（参与运算转换规则，从int开始） <br>
+  byte  short cahr之间不转换 <br>
+  long是8个字节、float是4个字节，但是float存储的数据范围比long大。底层存储结构不同</p>
+</blockquote>
+
+
+
+<h2 id="逻辑运算符">逻辑运算符</h2>
+
+
+
+<h4 id="title"><strong>&amp;</strong>、<strong>|</strong>、<strong>^</strong>、<strong>!</strong>、<strong>&amp;&amp;</strong>、<strong>||</strong></h4>
+
+<p><strong>&amp;</strong>:有false则为false，否则为true <br>
+<strong>|</strong>：有true则为true，否则为fasle <br>
+<strong>^</strong>:两个不一样就为true，否则为false（情侣关系） <br>
+<strong>!</strong>：非false则true，非true则false <br>
+<strong>&amp;&amp;</strong>：具有短路效果，左边是false，右边不执行（注意，右边不执行） <br>
+<strong>||</strong>：具有短路效果，左边是true，右边不执行（注意，右边不执行）</p>
+
+
+
+<h3 id="位运算">位运算</h3>
+
+<blockquote>
+  <p><strong>位运算，必须先把数据换算成二进制</strong></p>
+</blockquote>
+
+
+
+<h4 id="title-1"><strong>&amp;</strong>、<strong>|</strong>、<strong>^</strong>、<strong>~</strong>、<strong>&lt;&lt;</strong>、<strong>&gt;&gt;</strong>、<strong>&gt;&gt;&gt;</strong></h4>
+
+
+
+<h5 id="位与运算"><strong>&amp;</strong>:位与运算</h5>
+
+<blockquote>
+  <p>有0则0</p>
+</blockquote>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="hljs lsl"><div class="hljs-line"><span class="hljs-number">3</span> &amp; <span class="hljs-number">4</span>
+</div><div class="hljs-line"><span class="hljs-number">3</span>的二进制：<span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000011</span>
+</div><div class="hljs-line"><span class="hljs-number">4</span>的二进制：<span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000100</span>
+</div><div class="hljs-line"><span class="hljs-number">3</span> &amp; <span class="hljs-number">4</span> 表示成：
+</div><div class="hljs-line"><span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000011</span> &amp;
+</div><div class="hljs-line"><span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000100</span>
+</div><div class="hljs-line">遵循有<span class="hljs-number">0</span>则<span class="hljs-number">0</span>的规则，结果为：<span class="hljs-number">0</span>
+</div><div class="hljs-line"><span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span>
+</div></code></pre>
+
+
+
+<h5 id="位或运算"><strong>|</strong>:位或运算</h5>
+
+<blockquote>
+  <p>有1则1</p>
+</blockquote>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="hljs lsl"><div class="hljs-line">遵循有<span class="hljs-number">1</span>则<span class="hljs-number">1</span>的规则，<span class="hljs-number">3</span> &amp; <span class="hljs-number">4</span> 结果为：<span class="hljs-number">7</span>
+</div><div class="hljs-line"><span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000111</span>
+</div></code></pre>
+
+
+
+<h5 id="位异或运算"><strong>^</strong>:位异或运算</h5>
+
+<blockquote>
+  <p>相同则0，不同则1 <br>
+  <strong>^</strong>的特点：一个数据对另一个数据位异或两次，该数本身不变。10^20^20,结果为10</p>
+</blockquote>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="hljs lsl"><div class="hljs-line">遵循相同则<span class="hljs-number">0</span>，不同则<span class="hljs-number">1</span>规则，<span class="hljs-number">3</span> &amp; <span class="hljs-number">4</span> 结果为：<span class="hljs-number">7</span>
+</div><div class="hljs-line"><span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000111</span>
+</div></code></pre>
+
+<p><strong>两个数字交换的方式</strong></p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="hljs cs"><div class="hljs-line"><span class="hljs-keyword">class</span> <span class="hljs-title">OperatorTest</span>{
+</div><div class="hljs-line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span>(<span class="hljs-params">String[] args</span>)</span>{
+</div><div class="hljs-line">    <span class="hljs-keyword">int</span> a=<span class="hljs-number">10</span>;
+</div><div class="hljs-line">    <span class="hljs-keyword">int</span> b=<span class="hljs-number">20</span>;
+</div><div class="hljs-line">    <span class="hljs-comment">//方式1：使用第三方变量</span>
+</div><div class="hljs-line">    <span class="hljs-comment">/*</span>
+</div><div class="hljs-line"><span class="hljs-comment">    int c=a;</span>
+</div><div class="hljs-line"><span class="hljs-comment">    a=b;</span>
+</div><div class="hljs-line"><span class="hljs-comment">    b=c;</span>
+</div><div class="hljs-line"><span class="hljs-comment">    System.out.println("a:"+a+",b:"+b);</span>
+</div><div class="hljs-line"><span class="hljs-comment">    */</span>
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line">    <span class="hljs-comment">//方式2：用位异或实现</span>
+</div><div class="hljs-line">    <span class="hljs-comment">//左边：a,b,a</span>
+</div><div class="hljs-line">    <span class="hljs-comment">//右边：a^b</span>
+</div><div class="hljs-line">    <span class="hljs-comment">/*</span>
+</div><div class="hljs-line"><span class="hljs-comment">    a=a^b;</span>
+</div><div class="hljs-line"><span class="hljs-comment">    b=a^b;//a^b^b=a</span>
+</div><div class="hljs-line"><span class="hljs-comment">    a=a^b;//a^b^a=b</span>
+</div><div class="hljs-line"><span class="hljs-comment">    System.out.println("a:"+a+",b:"+b);</span>
+</div><div class="hljs-line"><span class="hljs-comment">    }</span>
+</div><div class="hljs-line"><span class="hljs-comment">    */</span>
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line">    <span class="hljs-comment">//方式3：用变量相加的做法</span>
+</div><div class="hljs-line">    <span class="hljs-comment">/*</span>
+</div><div class="hljs-line"><span class="hljs-comment">    a=a+b;</span>
+</div><div class="hljs-line"><span class="hljs-comment">    b=a-b;</span>
+</div><div class="hljs-line"><span class="hljs-comment">    a=a-b;</span>
+</div><div class="hljs-line"><span class="hljs-comment">    System.out.prinln("a:"+a+",b:"+b);</span>
+</div><div class="hljs-line"><span class="hljs-comment">    */</span>
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line">    <span class="hljs-comment">//方式4；一句话搞定</span>
+</div><div class="hljs-line">    b=(ab)-(a=b);
+</div><div class="hljs-line">    System.<span class="hljs-keyword">out</span>.prinln(<span class="hljs-string">"a:"</span>+a+<span class="hljs-string">",b:"</span>+b);
+</div><div class="hljs-line">}
+</div></code></pre>
+
+
+
+<h5 id="按位取反运算"><strong>~</strong>:按位取反运算</h5>
+
+<blockquote>
+  <p>0变1，1变0</p>
+</blockquote>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="hljs lsl"><div class="hljs-line">~<span class="hljs-number">3</span>的结果为<span class="hljs-number">4</span>：
+</div><div class="hljs-line"><span class="hljs-number">3</span>的二进制表示：<span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000011</span>
+</div><div class="hljs-line">按照<span class="hljs-number">0</span>变<span class="hljs-number">1</span>，<span class="hljs-number">1</span>变<span class="hljs-number">0</span>的规则得到：<span class="hljs-number">11111111</span> <span class="hljs-number">11111111</span> <span class="hljs-number">11111111</span> <span class="hljs-number">11111100</span>（得到的是补码）
+</div><div class="hljs-line">得到的补码转为反码再转为源码
+</div><div class="hljs-line">转为反码的结果：<span class="hljs-number">11111111</span> <span class="hljs-number">11111111</span> <span class="hljs-number">11111111</span> <span class="hljs-number">11111011</span>
+</div><div class="hljs-line">转为原码的结果：<span class="hljs-number">10000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000000</span> <span class="hljs-number">00000100</span>
+</div><div class="hljs-line"><span class="hljs-comment">//注意最高位为1，说明是负数</span>
+</div></code></pre>
+
+
+
+<h3 id="左移运算"><strong>&lt;&lt;</strong>:左移运算</h3>
+
+<blockquote>
+  <p>左边最高位丢弃，右边补齐0</p>
+</blockquote>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="hljs lsl"><div class="hljs-line">把&lt;&lt;左边的数据乘以<span class="hljs-number">2</span>的移动次幂。<span class="hljs-number">3</span>&lt;&lt;<span class="hljs-number">2</span> ==&gt;<span class="hljs-number">3</span>*<span class="hljs-number">2</span>^<span class="hljs-number">2</span>==&gt;<span class="hljs-number">3</span>*<span class="hljs-number">4</span>==&gt;<span class="hljs-number">12</span>
+</div></code></pre>
+
+
+
+<h3 id="右移运算"><strong>&gt;&gt;</strong>:右移运算</h3>
+
+<blockquote>
+  <p>最高位是0，左边补齐0；最高位是1，左边补齐1</p>
+</blockquote>
+
+
+
+<h3 id="无符号右移运算"><strong>&gt;&gt;&gt;</strong>:无符号右移运算</h3>
+
+<blockquote>
+  <p>无论最高位是0还是1，左边补齐0</p>
+</blockquote>
+
+
+
+<h3 id="单引号双引号">单引号、双引号</h3>
+
+<p>单引号内只能包含一个字符，双引号内可以包含多个字符</p>
+
+
+
+<h3 id="title-2"> </h3>
+
+
+
+<h3 id="title-3"> </h3>
+
+
+
+<h3 id="mysql">mysql</h3>
+
+
+
+<h4 id="索引">索引</h4>
+
+<p>索引是关系数据库中对某一列或多个列的值进行预排序的数据结构。通过使用索引，可以让数据库系统不必扫描整个表，而是直接定位到符合条件的记录，这样就大大加快了查询速度。</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-sql hljs"><div class="hljs-line"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> students
+</div><div class="hljs-line"><span class="hljs-keyword">ADD</span> <span class="hljs-keyword">INDEX</span> idx_score (score);
+</div></code></pre>
+
+<p>使用<code>ADD INDEX idx_score (score)</code>就创建了一个名称为<code>idx_score</code>，使用列<code>score</code>的索引。索引名称是任意的，索引如果有多列，可以在括号里依次写上</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-sql hljs"><div class="hljs-line"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> students
+</div><div class="hljs-line"><span class="hljs-keyword">ADD</span> <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">INDEX</span> uni_name (<span class="hljs-keyword">name</span>);
+</div></code></pre>
+
+<p>索引的效率取决于索引列的值是否散列，即该列的值如果越互不相同，那么索引效率越高。反过来，如果记录的列存在大量相同的值，例如gender列，大约一半的记录值是M，另一半是F，因此，对该列创建索引就没有意义。</p>
+
+<p>可以对一张表创建多个索引。索引的优点是提高了查询效率，缺点是在插入、更新和删除记录时，需要同时修改索引，因此，索引越多，插入、更新和删除记录的速度就越慢。</p>
+
+<p>对于主键，关系数据库会自动对其创建主键索引。使用主键索引的效率是最高的，因为主键会保证绝对唯一。</p>
+
+<p><strong>唯一索引</strong> <br>
+在设计关系数据表的时候，看上去唯一的列，例如身份证号、邮箱地址等，因为他们具有业务含义，因此不宜作为主键。</p>
+
+<p>但是，这些列根据业务要求，又具有唯一性约束：即不能出现两条记录存储了同一个身份证号。这个时候，就可以给该列添加一个唯一索引。例如，我们假设students表的name不能重复：</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-sql hljs"><div class="hljs-line"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> students
+</div><div class="hljs-line"><span class="hljs-keyword">ADD</span> <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">INDEX</span> uni_name (<span class="hljs-keyword">name</span>);
+</div></code></pre>
+
+<p>通过<code>UNIQUE</code>关键字我们就添加了一个唯一索引。</p>
+
+<p>也可以只对某一列添加一个<strong>唯一约束</strong>而不创建唯一索引：</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-sql hljs"><div class="hljs-line"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> students
+</div><div class="hljs-line"><span class="hljs-keyword">ADD</span> <span class="hljs-keyword">CONSTRAINT</span> uni_name <span class="hljs-keyword">UNIQUE</span> (<span class="hljs-keyword">name</span>);
+</div></code></pre>
+
+<p>这种情况下，name列没有索引，但仍然具有唯一性保证。</p>
+
+<p>无论是否创建索引，对于用户和应用程序来说，使用关系数据库不会有任何区别。这里的意思是说，当我们在数据库中查询时，如果有相应的索引可用，数据库系统就会自动使用索引来提高查询效率，如果没有索引，查询也能正常执行，只是速度会变慢。因此，索引可以在使用数据库的过程中逐步优化。</p>
+
+
+
+<h3 id="任意进制转十进制-1">任意进制转十进制</h3>
+
+<p><strong>位权展开法</strong> <br>
+<strong>系数</strong>：每一个位上的数据值本身就是系数 <br>
+<strong>基数</strong>：x进制的基数就是x（二进制的基数就是二） <br>
+<strong>权</strong>：针对每一个位上的数据进行编号，从右边开始，并且是从0开始编号，这个编号就是该位上数据的权值 <br>
+二进制：100 <br>
+1*2^2+0*2^1+0*2^0=4 <br>
+八进制：100 <br>
+1*8^2+0*8^1+0*8^0=64</p>
+
+
+
+<h3 id="十进制转其他进制">十进制转其他进制</h3>
+
+<p><strong>除基取余，直到商为0，余数反转</strong> <br>
+十进制：20 <br>
+20%2=0 <br>
+10%2=0 <br>
+5%2=1 <br>
+2%2=0 <br>
+1%2=1 <br>
+结果为：10100</p>
+
+
+
+<h3 id="原码反码补码">原码、反码、补码</h3>
+
+<p>计算机进行数字运算都是二进制形式的，并且是补码形式 <br>
+<strong>原码</strong>：正数的原码最高为是0 <br>
+负数的原码最高为是1 <br>
+其他的是数值位 <br>
+<strong>反码</strong>：正数的反码与原码相同 <br>
+负数的反码与原码符号位相同，数值位取反，就是1变0，0变1 <br>
+<strong>补码</strong>：正数的补码与原码相同 <br>
+负数的补码是在反码的基础上加1. <br>
+<strong>正数的原码反码补码都相同</strong></p>
+
+
+
+<h3 id="默认转换">默认转换</h3>
+
+<p>A:byte,short,char-int-long-float-double <br>
+只要有byte、shrot、char参与运算就会转为int <br>
+B:byte,short,char相互之间不转换，他们参与运算首先转换为int类型</p>
+
+
+
+<h3 id="强制转换">强制转换</h3>
+
+<p>从大的数据类型到小的数据类型 <br>
+格式： <br>
+目标数据类型 变量=（目标数据类型）（被转换的数据） <br>
+如：</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><div class="hljs-line"><span class="hljs-keyword">byte</span> a=<span class="hljs-number">3</span>;
+</div><div class="hljs-line"><span class="hljs-keyword">int</span>  b=<span class="hljs-number">4</span>;
+</div><div class="hljs-line"><span class="hljs-keyword">byte</span> c=(<span class="hljs-keyword">byte</span>)(a+b);
+</div></code></pre>
+
+
+
+<h3 id="题">题</h3>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><div class="hljs-line"><span class="hljs-keyword">byte</span> b1=<span class="hljs-number">3</span>,b2=<span class="hljs-number">4</span>,b;
+</div><div class="hljs-line">b=b1+b2;<span class="hljs-comment">//会发生错误，b1+b2会发生类型提升，结果为int类型</span>
+</div><div class="hljs-line">b=<span class="hljs-number">3</span>+<span class="hljs-number">4</span>;<span class="hljs-comment">//不会出错，3、4是常量，编译后b已经是7了，7在byte范围内，所以合法</span>
+</div><div class="hljs-line"><span class="hljs-comment">// 哪句是编译失败的呢，为什么</span>
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><span class="hljs-comment">//==========================================</span>
+</div><div class="hljs-line"><span class="hljs-keyword">byte</span> b=<span class="hljs-number">130</span>;<span class="hljs-comment">//有没有问题？如果我想让赋值正确，可以怎么做，结果是多少</span>
+</div><div class="hljs-line"><span class="hljs-comment">//有，因为byte的范围是：-128-127,130超了</span>
+</div><div class="hljs-line"><span class="hljs-comment">//可以使用强制类型转换</span>
+</div><div class="hljs-line"><span class="hljs-keyword">byte</span> b=(<span class="hljs-keyword">byte</span>)<span class="hljs-number">130</span>
+</div></code></pre>
+
+<p><strong>在定义Long或者Float类型变量的时候，要加L或者F</strong></p>
+
+
+
+<h3 id="java语言中字符char可以存储要给中文汉字吗为什么">Java语言中字符char可以存储要给中文汉字吗，为什么？</h3>
+
+<p>可以。因为Java语言中的字符占用两个字节。</p>
+
+
+
+<h3 id="运算符">运算符</h3>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><div class="hljs-line"><span class="hljs-number">5</span>/<span class="hljs-number">3</span> <span class="hljs-comment">//整数相除结果为整数</span>
+</div><div class="hljs-line"><span class="hljs-number">5</span>*<span class="hljs-number">1.0</span>/<span class="hljs-number">3</span> <span class="hljs-comment">// 结果为浮点数</span>
+</div></code></pre>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><div class="hljs-line"><span class="hljs-string">"hello"</span>+<span class="hljs-string">'a'</span>+<span class="hljs-number">1</span><span class="hljs-comment">//helloa1</span>
+</div><div class="hljs-line"><span class="hljs-string">'a'</span>+<span class="hljs-number">1</span>+<span class="hljs-string">"hellow"</span><span class="hljs-comment">//98hellow</span>
+</div></code></pre>
+
+
+
+<h3 id="题-1">题</h3>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><div class="hljs-line">shrot s=<span class="hljs-number">1</span>;
+</div><div class="hljs-line">s=s+<span class="hljs-number">1</span>;
+</div><div class="hljs-line"><span class="hljs-comment">//出错，精度会丢失</span>
+</div><div class="hljs-line"><span class="hljs-comment">//=================</span>
+</div><div class="hljs-line"><span class="hljs-keyword">short</span> s=<span class="hljs-number">1</span>;
+</div><div class="hljs-line">s+=<span class="hljs-number">1</span>;
+</div><div class="hljs-line"><span class="hljs-comment">//正确，扩展的赋值运算符隐含了一个强制类型转换，s+=1会转换成s=(s的数据类型)(s+1)</span>
+</div></code></pre>
+
+
+
+<h3 id="逻辑运算符-1">逻辑运算符</h3>
+
+<p><strong>&amp;&amp;</strong> 具有短路效果 <br>
+<strong>||</strong> 具有短路效果 <br>
+<strong>&amp;</strong> 没有短路效果 <br>
+<strong>|</strong> 没有短路效果 <br>
+其他没有区别</p>
+
+
+
+<h3 id="异或">异或</h3>
+
+<p>一个数据对另外一个数据位异或两次，该数本身不变</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><div class="hljs-line"><span class="hljs-number">2</span>^<span class="hljs-number">3</span>^<span class="hljs-number">3</span>=<span class="hljs-number">2</span>
+</div><div class="hljs-line"><span class="hljs-number">2</span>^<span class="hljs-number">3</span>^<span class="hljs-number">2</span>=<span class="hljs-number">3</span>
+</div></code></pre>
+
+
+
+<h3 id="交换数字">交换数字</h3>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><div class="hljs-line"><span class="hljs-comment">//方法1：位运算</span>
+</div><div class="hljs-line"><span class="hljs-keyword">int</span> a=<span class="hljs-number">1</span>;
+</div><div class="hljs-line"><span class="hljs-keyword">int</span> b=<span class="hljs-number">2</span>;
+</div><div class="hljs-line">a=a^b;
+</div><div class="hljs-line">b=a^b;
+</div><div class="hljs-line">a=a^b;
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><span class="hljs-comment">//方法2：中间变量</span>
+</div><div class="hljs-line"><span class="hljs-keyword">int</span> c=a;
+</div><div class="hljs-line">a=b;
+</div><div class="hljs-line">b=c
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><span class="hljs-comment">//方法3：</span>
+</div><div class="hljs-line">a=a+b;
+</div><div class="hljs-line">b=a-b;
+</div><div class="hljs-line">a=a-b;
+</div><div class="hljs-line"><wbr>
+</div><div class="hljs-line"><span class="hljs-comment">//方法4：一句话搞定</span>
+</div><div class="hljs-line">b=(a+b)-(a=b)
+</div></code></pre>
+
+
+
+<h3 id="跳出多层循环">跳出多层循环</h3>
+
+<p>代标签的循环</p>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><div class="hljs-line">wc:<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> x=<span class="hljs-number">0</span>;x&lt;<span class="hljs-number">5</span>;x++){
+</div><div class="hljs-line">    nc:<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> y=<span class="hljs-number">0</span>;y&lt;<span class="hljs-number">5</span>;y++){
+</div><div class="hljs-line">        <span class="hljs-keyword">break</span> nc;
+</div><div class="hljs-line">        <span class="hljs-keyword">break</span> wc;
+</div><div class="hljs-line">    }
+</div><div class="hljs-line">}
+</div></code></pre>
+
+
+
+<h3 id="方法定义">方法定义</h3>
+
+<p>方法是平级关系，不能嵌套定义</p>
+
+
+
+<h3 id="方法重载">方法重载</h3>
+
+<p>在同一个类中，方法名相同，参数个数或者类型不同，与返回值类型无关。</p>
+
+
+
+<h3 id="内置包">内置包</h3>
+
+
+
+<h4 id="获取键盘录入数据">获取键盘录入数据</h4>
+
+
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><div class="hljs-line"><span class="hljs-keyword">import</span> java.util.Scanner;
+</div><div class="hljs-line">Scanner sc=<span class="hljs-keyword">new</span> Scanner(System.in);
+</div><div class="hljs-line"><span class="hljs-keyword">int</span> a=sc.nextIn();<span class="hljs-comment">//数字</span>
+</div><div class="hljs-line">String s=sc.nextLine();<span class="hljs-comment">//字符串</span>
+</div></code></pre></div></body></html>
