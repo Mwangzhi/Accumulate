@@ -96,14 +96,18 @@ nums = [1, 2, 3, 4, 5, 6, 7]
 res = nums[::2]
 print(res)
 
+# 列表生成式
 l = [v for d in range(1, 11)]
 
 l1 = [x for x in range(10)]
 print(l1)  # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 l2 = [m+n for m in 'ABC' for n in 'XYZ']
 print(l2)  # ['AX', 'AY', 'AZ', 'BX', 'BY', 'BZ', 'CX', 'CY', 'CZ']
-[x*x for x in range(1, 11) if x % 2 == 0]
+[x * x for x in range(1, 11) if x % 2 == 0]
 
+d = {'x': 'A', 'y': 'B', 'z': 'C'}
+[k + '=' + v for k, v in d.items()]
+['y=B', 'x=A', 'z=C']
 
 g = (x*x for x in range(10))  # 创建生成器
 print(next(g))
@@ -339,7 +343,7 @@ s()
 
 print(callable(Student()))  # True
 print(callable(max)  # True
-print(callable([1, 2, 3])  # False
+print(callable([1, 2, 3]))  # False
 
 
 from enum import Enum
