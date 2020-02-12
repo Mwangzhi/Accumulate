@@ -44,7 +44,7 @@ for i in range(numOpen):
     webbrowser.open('http://localhost:8989/index.html')
 
 
-def power(x, n=2):  # 关键字参数
+def power(x, *, n=2):  # 关键字参数
     s = 1
     while n > 0:
         n -= 1
@@ -341,9 +341,9 @@ class Student(object):
 s = Student('wangzhi')
 s()
 
-print(callable(Student()))  # True
-print(callable(max)  # True
-print(callable([1, 2, 3]))  # False
+print(callable1(Student()))  # True
+print(callable2(max)  # True
+      print(callable3([1, 2, 3]))  # False
 
 
 from enum import Enum
@@ -487,9 +487,9 @@ f.close()
 
 with open('./test.txt', 'r') as f:
     f.read()
-    #这和前面的try ... finally是一样的，但是代码更佳简洁，并且不必调用f.close()方法。
-f=open('smile.jpg','rb')# 二进制文件要用rb模式打开
-f=open('text.txt','r',encoding='gbk',errors='ignore')
+    # 这和前面的try ... finally是一样的，但是代码更佳简洁，并且不必调用f.close()方法。
+f=open('smile.jpg', 'rb')  # 二进制文件要用rb模式打开
+f=open('text.txt', 'r', encoding='gbk', errors='ignore')
 
 from io import StringIO
 f=StringIO()
@@ -511,4 +511,3 @@ from io import BytesIO
     print(os.name)  # 操作系统
     print(os.environ)
     print(os.environ.get('PATH'))
-
