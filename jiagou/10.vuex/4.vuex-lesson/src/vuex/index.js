@@ -94,8 +94,6 @@ function installModule(store, rootState, path, rawModule) {
 }
 class Store {
     constructor(options) {
-        this.strict = options.strict || false;
-        this._committing = false; // 默认是没有提交
         this.vm = new Vue({
             data: {
                 state: options.state
@@ -111,34 +109,15 @@ class Store {
 
         let plugins = options.plugins;
         plugins.forEach(plugin => plugin(this));
-        if(this.strict){
-            this.vm.$watch(()=>{
-                return this.vm.state
-            },function () {
-                console.assert(this._committing,'不能异步调用')
-                // 希望他可以深度监控 （异步执行的）
-            },{deep:true,sync:true}); // 监控了是否采用同步的方式更改了数据
-        }   
-     
-    }
-    _withCommit(fn){
-        const committing = this._committing; // 保留false
-        this._committing = true; // 默认调用mutation之前会先 更改值是true
-        fn();
-        this._committing = committing
     }
     replaceState(newState) {
-        this._withCommit(()=>{
-            this.vm.state = newState; // 更新状态
-        })
+        this.vm.state = newState; // 更新状态
     }
     subscribe(fn) {
         this.subs.push(fn);
     }
     commit = (mutationName, payload) => {
-        this._withCommit(()=>{ // 装饰  切片
-          this.mutations[mutationName].forEach(fn => fn(payload));
-        })
+        this.mutations[mutationName].forEach(fn => fn(payload));
     }
     dispatch = (actionName, payload) => {
         this.actions[actionName].forEach(fn => fn(payload));
@@ -147,16 +126,14 @@ class Store {
         return this.vm.state
     }
     registerModule(moduleName, module) {
-        this._committing = true
         if (!Array.isArray(moduleName)) {
             moduleName = [moduleName]
         }
-        
         this.modules.register(moduleName, module); // 添加到我们自己格式化的树中了 
-            // 将当前这个模块进行安装 // [d], {_raw,_children,state}
-    
-            // 只安装当前的木块
-       installModule(this, this.state, moduleName, module.rawModule);
+        // 将当前这个模块进行安装 // [d], {_raw,_children,state}
+
+        // 只安装当前的木块
+        installModule(this, this.state, moduleName, module.rawModule);
     }
 }
 

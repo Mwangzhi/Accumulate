@@ -25,7 +25,6 @@ function persists(store){ // 每次去服务器上拉去最新的 session、loca
   });
 }
 let store =  new Vuex.Store({
-  strict:true,
   plugins:[
     persists
     // logger 
@@ -72,6 +71,7 @@ let store =  new Vuex.Store({
   state: {// 单一数据源  data
     age:10
   },
+  strict:true,
   getters:{ // computed
     myAge(state){ // 以前用vue中的计算属性
       return state.age + 20
@@ -81,9 +81,7 @@ let store =  new Vuex.Store({
   mutations: { // mutation更改状态只能采用同步（严格模式下使用）  // method
     // payload 载荷
     syncChange(state,payload){ // 修改状态的方法 同步的更改
-      setTimeout(() => {
       state.age += payload
-      }, 1000);
     }
   },
   actions: {
