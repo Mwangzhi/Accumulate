@@ -1,0 +1,31 @@
+<template>
+  <div id="app">
+    珠峰的年龄{{$store.state.age}} <br>
+
+    <!-- 我的年龄 {{$store.getters.myAge}}
+    <button @click="syncChange()">点我更改</button>
+    <button @click="asyncChange()">异步更改</button> -->
+  </div>
+</template>
+
+<script>
+
+export default {
+  name:'app',
+  beforeCreate(){
+    console.log('组件')
+  },
+  methods:{
+    syncChange(){
+      this.$store.commit('syncChange',10)
+    },
+    asyncChange(){
+      this.$store.dispatch('asyncChange',5)
+    }
+  }
+}
+</script>
+
+<style>
+
+</style>
