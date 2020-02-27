@@ -1,5 +1,4 @@
 import Vue from 'vue';
-
 let vm = new Vue({
     el:'#app',
     data(){
@@ -9,8 +8,6 @@ let vm = new Vue({
         return h('p',{id:'a'},this.msg)
     }
 })
-
-
 setTimeout(() => {
     vm.msg = 'hello world'
 }, 1000);
