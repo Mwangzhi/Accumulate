@@ -36,3 +36,31 @@ if (a == b) {
 0.8 * 2 = 1.6   1
 
 */
+//=================================================================
+function foo(a, b) {
+    console.log(b);
+    return {
+        foo: function (c) {
+            return foo(c, a);
+        }
+    }
+}
+
+var func1 = foo(0);
+func1.foo(1);
+func1.foo(2);
+func1.foo(3);
+var func2 = foo(0).foo(1).foo(2).foo(3);
+var func3 = foo(0).foo(1);
+func3.foo(2);
+func3.foo(3);
+/* 
+undefined
+0
+0
+0
+undefined  0 1 2
+undefined 0
+1
+1
+*/
