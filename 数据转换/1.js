@@ -57,3 +57,20 @@ function forMate(entry) {
     });
     return res;
 }
+
+
+/* 
+将target对象上的source属性的值代理到target上
+代理前：target.source.key
+代理后：target.key;
+*/
+function proxy(target, source, key) {
+    Object.defineProperty(target, key, {
+        get() {
+            return target[source][key];
+        },
+        set(newValue) {
+            return target[source][key] = newValue;
+        }
+    })
+}
